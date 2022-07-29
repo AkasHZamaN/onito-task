@@ -9,13 +9,20 @@ const Form = () => {
   } = useForm();
 
   const [tableData, setTableData] = useState([]);
+  const [newData, setNewData] = useState([])
+
+
+
+  const filterMethod = () => {
+    tableData.filter(td => setNewData((dataList) => [...dataList, td.paymentMethod]))
+  };
+
+  // console.log(newData);
 
   const onSubmit = (data, event) => {
     event.preventDefault();
-
     if (data) {
       setTableData((dataList) => [...dataList, data]);
-      localStorage.setItem("data", JSON.stringify(data));
     }
     event.target.reset();
   };
@@ -100,6 +107,8 @@ const Form = () => {
                   Select Your Payment..
                 </option>
                 <option value={"Cash"}>Cash</option>
+                <option value={"ATM Card"}>Atm Card</option>
+                <option value={"Creadit Card"}>Creadit Card</option>
               </select>
             </div>
           </div>
@@ -116,11 +125,10 @@ const Form = () => {
                     value: true,
                   },
                 })}
-                
               />
             </div>
           </div>
-                
+
           <div className="w-3/4 px-6 flex justify-end items-center py-6">
             <div>
               <button className="btn btn-outline btn-error mr-4 ">
@@ -128,12 +136,47 @@ const Form = () => {
               </button>
             </div>
             <div>
-              <button type="submit" className="btn bg-green-800 text-white">Submit</button>
+              <button
+                type="submit"
+                className="btn bg-green-800 text-white mr-4"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
       </form>
 
+      <div className="w-3/4 mx-auto ">
+        <div>
+          <button
+            onClick={filterMethod}
+            className="btn bg-green-800 text-white my-6 "
+          >
+            Payment
+          </button>
+        </div>
+        <div>
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Payment mode</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {newData.map((nd, index) => (
+              <tr key={index + 1}>
+                <th>{index + 1}</th>
+                <td>{nd}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+             
+        </div>
+      </div>
 
       {/* table */}
 
